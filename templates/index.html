@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="note-form">
+    <form method="POST" action="/add">
+        <input type="text" name="title" placeholder="Note Title" required>
+        <textarea name="content" placeholder="Write something..." rows="4" required></textarea>
+        <button type="submit">Add Note</button>
+    </form>
+</section>
+
+<section class="note-list">
+    {% for note in notes %}
+    <div class="note-card">
+        <h2>{{ note.title }}</h2>
+        <p>{{ note.content }}</p>
+        <div class="note-meta">
+            <small>🕒 Created: {{ note.created_at.strftime('%Y-%m-%d %H:%M') }}</small><br>
+            <small>🛠️ Last Updated: {{ note.updated_at.strftime('%Y-%m-%d %H:%M') }}</small>
+        </div>
+        <div class="actions">
+            <a href="{{ url_for('edit_note', id=note.id) }}" class="btn edit">Edit</a>
+            <a href="{{ url_for('delete_note', id=note.id) }}" class="btn delete" onclick="return confirm('Delete this note?')">Delete</a>
+        </div>
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}
